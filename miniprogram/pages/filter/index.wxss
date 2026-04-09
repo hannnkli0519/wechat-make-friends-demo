@@ -1,0 +1,175 @@
+/* pages/filter/index.wxss */
+.filter-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f6f6f6;
+}
+
+.filter-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 24rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #e2e8f0;
+}
+
+.filter-header-left {
+  width: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  font-size: 48rpx;
+  color: #2d3748;
+  font-weight: 300;
+}
+
+.filter-header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d3748;
+  margin-right: 64rpx;
+}
+
+.filter-header-right {
+  width: 64rpx;
+}
+
+.filter-content {
+  flex: 1;
+  padding: 32rpx 24rpx;
+  overflow-y: auto;
+  padding-bottom: 200rpx;
+}
+
+.filter-section {
+  margin-bottom: 40rpx;
+}
+
+.filter-section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+/* Age Range */
+.age-range-wrap {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+}
+
+.age-range-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.age-value {
+  font-size: 30rpx;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.age-separator {
+  font-size: 30rpx;
+  color: #a0aec0;
+}
+
+.slider-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+}
+
+.age-slider {
+  flex: 1;
+}
+
+/* Cities */
+.city-wrap {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.city-tag {
+  padding: 14rpx 32rpx;
+  border-radius: 30rpx;
+  font-size: 28rpx;
+  color: #718096;
+  background: #ffffff;
+  border: 1rpx solid #e2e8f0;
+}
+
+.city-tag.selected {
+  background: #4299E1;
+  color: #ffffff;
+  border-color: #4299E1;
+}
+
+/* Interests */
+.interest-wrap {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.interest-tag {
+  padding: 14rpx 32rpx;
+  border-radius: 30rpx;
+  font-size: 28rpx;
+  color: #718096;
+  background: #ffffff;
+  border: 1rpx solid #e2e8f0;
+}
+
+.interest-tag.selected {
+  background: #4299E1;
+  color: #ffffff;
+  border-color: #4299E1;
+}
+
+/* Footer */
+.filter-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx;
+  background: #ffffff;
+  border-top: 1rpx solid #e2e8f0;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+}
+
+.filter-confirm-btn {
+  background: #f5b4bc;
+  border-radius: 50rpx;
+  padding: 24rpx 0;
+  text-align: center;
+}
+
+.confirm-text {
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 500;
+}

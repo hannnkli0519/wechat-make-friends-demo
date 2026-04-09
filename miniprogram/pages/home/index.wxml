@@ -1,0 +1,50 @@
+<!-- pages/home/index.wxml -->
+<view class="home-page">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-title">推荐</view>
+    <view class="filter-btn" bindtap="onFilterTap">
+      <text class="filter-icon">☰</text>
+    </view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="content" scroll-y bindscrolltolower="onScrollToLower">
+    <block wx:if="{{userList.length > 0}}">
+      <view class="user-card" wx:for="{{userList}}" wx:key="id" wx:for-item="user" wx:for-index="idx">
+        <view class="user-card-image">
+          <image class="user-avatar" src="{{user.avatar}}" mode="aspectFill" />
+          <view class="user-card-overlay">
+            <view class="user-card-info">
+              <text class="user-name">{{user.name}}</text>
+              <text class="user-meta">{{user.age}}岁 · {{user.city}}</text>
+              <view class="user-tags">
+                <view class="user-tag" wx:for="{{user.interests}}" wx:for-item="interest" wx:key="*this">
+                  {{interest}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="user-card-actions">
+          <view class="btn-skip" bindtap="onSkipTap" data-id="{{user.id}}">
+            <text class="btn-skip-text">✕ 跳过</text>
+          </view>
+          <view class="btn-like" bindtap="onLikeTap" data-id="{{user.id}}">
+            <text class="btn-like-text">♡ 喜欢</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{userList.length === 0}}">
+      <view class="empty-state">
+        <view class="empty-icon">
+          <text class="empty-icon-text">♡</text>
+        </view>
+        <text class="empty-title">暂无推荐</text>
+        <text class="empty-desc">稍后再来看看吧</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>

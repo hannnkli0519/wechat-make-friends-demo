@@ -1,0 +1,46 @@
+<!-- pages/chat/index.wxml -->
+<view class="chat-page">
+  <!-- Header -->
+  <view class="chat-header">
+    <view class="chat-header-left" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <image class="chat-header-avatar" src="{{userAvatar}}" mode="aspectFill" />
+    <text class="chat-header-name">{{userName}}</text>
+    <view class="chat-header-right"></view>
+  </view>
+
+  <!-- Chat Messages -->
+  <scroll-view class="chat-content" scroll-y scroll-into-view="msg-{{messages.length - 1}}" scroll-with-animation>
+    <view class="chat-message-item" wx:for="{{messages}}" wx:key="id" id="msg-{{index}}">
+      <!-- 对方消息 -->
+      <block wx:if="{{!item.isSelf}}">
+        <view class="chat-message-other">
+          <image class="chat-message-avatar" src="{{userAvatar}}" mode="aspectFill" />
+          <view class="chat-message-bubble chat-message-bubble-left">
+            <text class="chat-message-text">{{item.content}}</text>
+          </view>
+        </view>
+      </block>
+      <!-- 自己消息 -->
+      <block wx:if="{{item.isSelf}}">
+        <view class="chat-message-self">
+          <view class="chat-message-bubble chat-message-bubble-right">
+            <text class="chat-message-text">{{item.content}}</text>
+          </view>
+          <image class="chat-message-avatar" src="{{myAvatar}}" mode="aspectFill" />
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!-- Footer - Input Area -->
+  <view class="chat-footer">
+    <view class="chat-input-wrap">
+      <input class="chat-input" placeholder="输入消息..." placeholder-class="chat-input-placeholder" value="{{inputText}}" bindinput="onInputChange" bindconfirm="onSendMessage" confirm-type="send" />
+    </view>
+    <view class="chat-send-btn {{inputText ? 'active' : ''}}" bindtap="onSendMessage">
+      <text class="send-icon">↑</text>
+    </view>
+  </view>
+</view>

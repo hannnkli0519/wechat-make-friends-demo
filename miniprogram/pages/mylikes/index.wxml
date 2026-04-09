@@ -1,0 +1,44 @@
+<!-- pages/mylikes/index.wxml -->
+<view class="mylikes-page">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-left" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="header-title">我喜欢的</text>
+    <view class="header-right"></view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="content" scroll-y>
+    <block wx:if="{{myLikesList.length > 0}}">
+      <view class="like-card" wx:for="{{myLikesList}}" wx:key="id">
+        <image class="like-avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <view class="like-info">
+          <view class="like-top">
+            <text class="like-name">{{item.name}}</text>
+            <text class="like-meta">{{item.age}}岁 · {{item.city}}</text>
+          </view>
+          <view class="like-tags">
+            <view class="like-tag" wx:for="{{item.interests}}" wx:for-item="tag" wx:for-index="tagIdx" wx:key="tagIdx">
+              {{tag}}
+            </view>
+          </view>
+        </view>
+        <view class="like-heart">
+          <text class="heart-icon">♥</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{myLikesList.length === 0}}">
+      <view class="empty-state">
+        <view class="empty-icon">
+          <text class="empty-icon-text">♡</text>
+        </view>
+        <text class="empty-title">还没有喜欢的人</text>
+        <text class="empty-desc">去推荐页面看看有没有心动的人吧</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>

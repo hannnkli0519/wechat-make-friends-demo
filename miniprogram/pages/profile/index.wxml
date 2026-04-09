@@ -1,0 +1,56 @@
+<!-- pages/profile/index.wxml -->
+<view class="profile-page">
+  <!-- Header -->
+  <view class="header">
+    <text class="header-title">我的</text>
+    <view class="edit-btn" bindtap="onEditTap">
+      <text class="edit-btn-text">编辑</text>
+    </view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="content" scroll-y>
+    <!-- 用户信息 -->
+    <view class="profile-card">
+      <image class="profile-avatar" src="{{profile.avatar}}" mode="aspectFill" />
+      <view class="profile-info">
+        <text class="profile-name">{{profile.name}}</text>
+        <text class="profile-meta">{{profile.age}}岁 · {{profile.city}} · {{profile.occupation}}</text>
+      </view>
+    </view>
+
+    <!-- 数据统计 -->
+    <view class="stats-row">
+      <view class="stat-item">
+        <text class="stat-value">{{profile.visitors}}</text>
+        <text class="stat-label">访客</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{profile.likes}}</text>
+        <text class="stat-label">喜欢</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{profile.matches}}</text>
+        <text class="stat-label">匹配</text>
+      </view>
+    </view>
+
+    <!-- 功能列表 -->
+    <view class="menu-section">
+      <view class="menu-item" bindtap="onMyLikesTap">
+        <view class="menu-item-left">
+          <view class="menu-icon menu-icon-heart">♡</view>
+          <text class="menu-text">我喜欢的</text>
+        </view>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onLikesMeTap">
+        <view class="menu-item-left">
+          <view class="menu-icon menu-icon-star">☆</view>
+          <text class="menu-text">喜欢我的</text>
+        </view>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

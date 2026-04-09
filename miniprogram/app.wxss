@@ -1,0 +1,189 @@
+/** app.wxss **/
+page {
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 颜色变量 */
+page {
+  --color-primary: #F5B4BC;
+  --color-primary-light: #FEF0F2;
+  --color-primary-dark: #E89DA6;
+  --color-text-main: #2D3748;
+  --color-text-sub: #718096;
+  --color-text-placeholder: #A0AEC0;
+  --color-bg: #F6F6F6;
+  --color-bg-white: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-empty: #CBD5E0;
+  --color-danger: #F5B4BC;
+  --color-success: #48BB78;
+  --color-blue: #4299E1;
+}
+
+/* 按钮基础样式 */
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 50rpx;
+  text-align: center;
+  padding: 20rpx 40rpx;
+  border: none;
+}
+
+.btn-secondary {
+  background: var(--color-bg);
+  color: var(--color-text-sub);
+  font-size: 28rpx;
+  border-radius: 50rpx;
+  text-align: center;
+  padding: 16rpx 36rpx;
+  border: 1rpx solid var(--color-border);
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 20rpx;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border-radius: 30rpx;
+  font-size: 24rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-state .empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #EDF2F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.empty-state .empty-icon-text {
+  font-size: 64rpx;
+  color: var(--color-empty);
+}
+
+.empty-state .empty-title {
+  font-size: 36rpx;
+  color: var(--color-text-main);
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+.empty-state .empty-desc {
+  font-size: 28rpx;
+  color: var(--color-text-placeholder);
+  text-align: center;
+  padding: 0 80rpx;
+  line-height: 1.6;
+}
+
+/* 底部Tab栏 */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 120rpx;
+  background: #fff;
+  border-top: 1rpx solid var(--color-border);
+  z-index: 999;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 12rpx 0;
+}
+
+.tab-bar-item .tab-icon {
+  font-size: 44rpx;
+  margin-bottom: 4rpx;
+  color: var(--color-text-placeholder);
+}
+
+.tab-bar-item .tab-text {
+  font-size: 22rpx;
+  color: var(--color-text-placeholder);
+}
+
+.tab-bar-item.active .tab-icon {
+  color: var(--color-primary);
+}
+
+.tab-bar-item.active .tab-text {
+  color: var(--color-primary);
+}
+
+/* 页面头部 */
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 32rpx;
+  background: #fff;
+  border-bottom: 1rpx solid var(--color-border);
+}
+
+.page-header .header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.page-header .header-btn {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #EDF2F7;
+}
+
+.page-header .header-btn-text {
+  font-size: 24rpx;
+  color: var(--color-text-sub);
+}
+
+/* 页面内容区 */
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 140rpx;
+}

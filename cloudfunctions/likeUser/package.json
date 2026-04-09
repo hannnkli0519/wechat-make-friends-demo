@@ -1,0 +1,9 @@
+{
+  "name": "likeUser",
+  "version": "1.0.0",
+  "description": "喜欢用户并检查匹配",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

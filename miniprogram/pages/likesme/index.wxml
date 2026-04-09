@@ -1,0 +1,44 @@
+<!-- pages/likesme/index.wxml -->
+<view class="likesme-page">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-left" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="header-title">喜欢我的</text>
+    <view class="header-right"></view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="content" scroll-y>
+    <block wx:if="{{likesMeList.length > 0}}">
+      <view class="like-card" wx:for="{{likesMeList}}" wx:key="id">
+        <image class="like-avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <view class="like-info">
+          <view class="like-top">
+            <text class="like-name">{{item.name}}</text>
+            <text class="like-meta">{{item.age}}岁 · {{item.city}}</text>
+          </view>
+          <view class="like-tags">
+            <view class="like-tag" wx:for="{{item.interests}}" wx:for-item="tag" wx:for-index="tagIdx" wx:key="tagIdx">
+              {{tag}}
+            </view>
+          </view>
+        </view>
+        <view class="like-respond-btn" bindtap="onRespondTap" data-id="{{item.id}}" data-name="{{item.name}}">
+          <text class="respond-text">回应</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{likesMeList.length === 0}}">
+      <view class="empty-state">
+        <view class="empty-icon">
+          <text class="empty-icon-text">♡</text>
+        </view>
+        <text class="empty-title">暂无新的喜欢</text>
+        <text class="empty-desc">继续浏览推荐，说不定会遇到喜欢你的人</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>

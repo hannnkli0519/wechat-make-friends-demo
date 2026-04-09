@@ -1,0 +1,66 @@
+<!-- pages/profile-edit/index.wxml -->
+<view class="edit-page">
+  <!-- Header -->
+  <view class="edit-header">
+    <view class="edit-header-left" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="edit-header-title">编辑资料</text>
+    <text class="save-btn" bindtap="onSave">保存</text>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="edit-content" scroll-y>
+    <!-- 我的照片 -->
+    <view class="edit-section">
+      <text class="section-title">我的照片</text>
+      <view class="photos-row">
+        <view class="photo-item" wx:for="{{profile.photos}}" wx:key="index">
+          <image class="photo-image" src="{{item}}" mode="aspectFill" />
+          <view class="photo-camera">📷</view>
+        </view>
+        <view class="photo-item photo-add" bindtap="onAddPhoto">
+          <text class="photo-add-icon">+</text>
+          <text class="photo-add-text">添加照片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="edit-section">
+      <text class="section-title">基本信息</text>
+      <view class="form-item">
+        <text class="form-label">昵称</text>
+        <input class="form-input" value="{{profile.name}}" bindinput="onNameChange" placeholder="请输入昵称" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">年龄</text>
+        <input class="form-input" type="number" value="{{profile.age}}" bindinput="onAgeChange" placeholder="请输入年龄" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">城市</text>
+        <input class="form-input" value="{{profile.city}}" bindinput="onCityChange" placeholder="请输入城市" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">职业</text>
+        <input class="form-input" value="{{profile.occupation}}" bindinput="onOccupationChange" placeholder="请输入职业" />
+      </view>
+    </view>
+
+    <!-- 个人简介 -->
+    <view class="edit-section">
+      <text class="section-title">个人简介</text>
+      <textarea class="bio-input" value="{{profile.bio}}" bindinput="onBioChange" placeholder="介绍一下自己吧" maxlength="200" />
+    </view>
+
+    <!-- 兴趣爱好 -->
+    <view class="edit-section">
+      <text class="section-title">兴趣爱好</text>
+      <view class="interests-wrap">
+        <view class="interest-tag {{item.selected ? 'selected' : ''}}" wx:for="{{interestOptions}}" wx:key="*this" bindtap="onInterestTap" data-tag="{{item.name}}">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

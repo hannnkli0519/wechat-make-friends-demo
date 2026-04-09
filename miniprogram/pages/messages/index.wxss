@@ -1,0 +1,150 @@
+/* pages/messages/index.wxss */
+.messages-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f6f6f6;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 32rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #e2e8f0;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #ffffff;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.message-avatar-wrap {
+  position: relative;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.message-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.message-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background: #f5b4bc;
+  color: #ffffff;
+  border-radius: 16rpx;
+  font-size: 20rpx;
+  padding: 0 8rpx;
+}
+
+.message-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.message-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.message-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.message-time {
+  font-size: 24rpx;
+  color: #a0aec0;
+}
+
+.message-bottom {
+  overflow: hidden;
+}
+
+.message-last {
+  font-size: 28rpx;
+  color: #718096;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-arrow {
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+.arrow-icon {
+  font-size: 40rpx;
+  color: #cbd5e0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #edf2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.empty-icon-text {
+  font-size: 64rpx;
+  color: #cbd5e0;
+}
+
+.empty-title {
+  font-size: 36rpx;
+  color: #2d3748;
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  color: #a0aec0;
+  text-align: center;
+  padding: 0 80rpx;
+  line-height: 1.6;
+}

@@ -1,0 +1,160 @@
+/* pages/likesme/index.wxss */
+.likesme-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f6f6f6;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 24rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #e2e8f0;
+}
+
+.header-left {
+  width: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  font-size: 48rpx;
+  color: #2d3748;
+  font-weight: 300;
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d3748;
+  margin-right: 64rpx;
+}
+
+.header-right {
+  width: 64rpx;
+}
+
+.content {
+  flex: 1;
+  padding: 24rpx;
+  overflow-y: auto;
+}
+
+.like-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.like-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.like-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.like-top {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+
+.like-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d3748;
+  margin-right: 12rpx;
+}
+
+.like-meta {
+  font-size: 26rpx;
+  color: #718096;
+}
+
+.like-tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.like-tag {
+  display: inline-flex;
+  padding: 6rpx 20rpx;
+  background: #fef0f2;
+  color: #f5b4bc;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+}
+
+.like-respond-btn {
+  padding: 16rpx 36rpx;
+  background: #f5b4bc;
+  border-radius: 30rpx;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+.respond-text {
+  font-size: 26rpx;
+  color: #ffffff;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #edf2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.empty-icon-text {
+  font-size: 64rpx;
+  color: #cbd5e0;
+}
+
+.empty-title {
+  font-size: 36rpx;
+  color: #2d3748;
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  color: #a0aec0;
+  text-align: center;
+  padding: 0 40rpx;
+  line-height: 1.6;
+}

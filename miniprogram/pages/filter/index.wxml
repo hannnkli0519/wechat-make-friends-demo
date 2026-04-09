@@ -1,0 +1,57 @@
+<!-- pages/filter/index.wxml -->
+<view class="filter-page">
+  <!-- Header -->
+  <view class="filter-header">
+    <view class="filter-header-left" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="filter-header-title">筛选条件</text>
+    <view class="filter-header-right"></view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="filter-content" scroll-y>
+    <!-- 年龄范围 -->
+    <view class="filter-section">
+      <text class="filter-section-title">年龄范围</text>
+      <view class="age-range-wrap">
+        <view class="age-range-row">
+          <text class="age-value">{{filter.minAge}}岁</text>
+          <text class="age-separator">-</text>
+          <text class="age-value">{{filter.maxAge}}岁</text>
+        </view>
+        <view class="slider-row">
+          <slider class="age-slider" min="18" max="40" value="{{filter.minAge}}" bindchange="onMinAgeChange" activeColor="#4299E1" backgroundColor="#e2e8f0" block-size="20" />
+          <slider class="age-slider" min="18" max="40" value="{{filter.maxAge}}" bindchange="onMaxAgeChange" activeColor="#4299E1" backgroundColor="#e2e8f0" block-size="20" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 所在城市 -->
+    <view class="filter-section">
+      <text class="filter-section-title">所在城市</text>
+      <view class="city-wrap">
+        <view class="city-tag {{filter.cities.includes(item) ? 'selected' : ''}}" wx:for="{{cities}}" wx:key="*this" bindtap="onCityTap" data-city="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 兴趣标签 -->
+    <view class="filter-section">
+      <text class="filter-section-title">兴趣标签</text>
+      <view class="interest-wrap">
+        <view class="interest-tag {{filter.interests.includes(item) ? 'selected' : ''}}" wx:for="{{interests}}" wx:key="*this" bindtap="onInterestTap" data-tag="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- Footer -->
+  <view class="filter-footer">
+    <view class="filter-confirm-btn" bindtap="onConfirm">
+      <text class="confirm-text">确认筛选</text>
+    </view>
+  </view>
+</view>

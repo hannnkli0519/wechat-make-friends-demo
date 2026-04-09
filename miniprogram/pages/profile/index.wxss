@@ -1,0 +1,160 @@
+/* pages/profile/index.wxss */
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f6f6f6;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 32rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #e2e8f0;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.edit-btn {
+  padding: 12rpx 32rpx;
+  background: #f5b4bc;
+  border-radius: 30rpx;
+}
+
+.edit-btn-text {
+  font-size: 26rpx;
+  color: #ffffff;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Profile Card */
+.profile-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #ffffff;
+  padding: 40rpx 32rpx;
+  margin-bottom: 16rpx;
+}
+
+.profile-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8rpx;
+}
+
+.profile-meta {
+  font-size: 26rpx;
+  color: #718096;
+}
+
+/* Stats Row */
+.stats-row {
+  display: flex;
+  flex-direction: row;
+  background: #ffffff;
+  padding: 32rpx 0;
+  margin-bottom: 16rpx;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #718096;
+}
+
+/* Menu Section */
+.menu-section {
+  background: #ffffff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+}
+
+.menu-icon-heart {
+  background: #fef0f2;
+  color: #f5b4bc;
+}
+
+.menu-icon-star {
+  background: #fef0f2;
+  color: #f5b4bc;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #2d3748;
+}
+
+.menu-arrow {
+  font-size: 40rpx;
+  color: #cbd5e0;
+}

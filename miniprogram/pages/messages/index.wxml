@@ -1,0 +1,41 @@
+<!-- pages/messages/index.wxml -->
+<view class="messages-page">
+  <!-- Header -->
+  <view class="header">
+    <text class="header-title">消息</text>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="content" scroll-y bindscrolltolower="onScrollToLower">
+    <block wx:if="{{messageList.length > 0}}">
+      <view class="message-item" wx:for="{{messageList}}" wx:key="userId" bindtap="onMessageTap" data-userid="{{item.userId}}">
+        <view class="message-avatar-wrap">
+          <image class="message-avatar" src="{{item.avatar}}" mode="aspectFill" />
+          <view class="message-badge" wx:if="{{item.unreadCount > 0}}">{{item.unreadCount}}</view>
+        </view>
+        <view class="message-content">
+          <view class="message-top">
+            <text class="message-name">{{item.name}}</text>
+            <text class="message-time">{{item.time}}</text>
+          </view>
+          <view class="message-bottom">
+            <text class="message-last">{{item.lastMessage}}</text>
+          </view>
+        </view>
+        <view class="message-arrow">
+          <text class="arrow-icon">›</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{messageList.length === 0}}">
+      <view class="empty-state">
+        <view class="empty-icon">
+          <text class="empty-icon-text">◉</text>
+        </view>
+        <text class="empty-title">暂无消息</text>
+        <text class="empty-desc">当有人喜欢你并且你也喜欢对方时，你们就可以开始聊天了</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>
