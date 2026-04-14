@@ -1,10 +1,12 @@
 // app.js
 App({
+  globalData: {
+    env: "cloudbase-7gsnbl9n078289bd",
+    currentUserId: 1
+  },
+
   onLaunch: function () {
-    this.globalData = {
-      env: "",
-      currentUserId: 1
-    };
+    console.log('App onLaunch, env:', this.globalData.env);
     if (!wx.cloud) {
       console.error("请使用 2.2.3 或以上的基础库以使用云能力");
     } else {
@@ -12,10 +14,7 @@ App({
         env: this.globalData.env,
         traceUser: true,
       });
+      console.log('wx.cloud.init 完成');
     }
-  },
-  globalData: {
-    env: "",
-    currentUserId: 1
   }
 });

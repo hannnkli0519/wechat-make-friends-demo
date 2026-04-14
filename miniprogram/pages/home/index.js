@@ -1,130 +1,105 @@
-// pages/home/index.js
-const { mockUsers } = require('../../utils/mockData');
-
 Page({
   data: {
     userList: [],
-    allUsers: [],
-    filterConfig: {
-      minAge: 18,
-      maxAge: 40,
-      cities: [],
-      interests: []
+    loading: false
+  },
+
+  onLoad: function () {
+    this.loadRecommendations();
+  },
+
+  onShow: function() {
+    if (this.data.userList.length === 0) {
+      this.loadRecommendations();
     }
   },
 
-  onLoad() {
-    this.loadUsers();
-  },
-
-  onShow() {
-    this.loadUsers();
-  },
-
-  loadUsers() {
-    const app = getApp();
-    const currentUserId = app.globalData.currentUserId;
-
-    let storedUsers = wx.getStorageSync('recommendUsers') || mockUsers.slice();
-    let likedUsers = wx.getStorageSync('likedUsers') || [];
-    let skippedUsers = wx.getStorageSync('skippedUsers') || [];
-
-    const likedIds = likedUsers.map(u => u.id);
-    const skippedIds = skippedUsers.map(u => u.id);
-
-    let filteredUsers = storedUsers.filter(user => {
-      return !likedIds.includes(user.id) && !skippedIds.includes(user.id);
-    });
-
-    const filterConfig = this.data.filterConfig;
-    if (filterConfig.minAge > 18 || filterConfig.maxAge < 40) {
-      filteredUsers = filteredUsers.filter(user => {
-        return user.age >= filterConfig.minAge && user.age <= filterConfig.maxAge;
-      });
-    }
-
-    if (filterConfig.cities.length > 0) {
-      filteredUsers = filteredUsers.filter(user => {
-        return filterConfig.cities.includes(user.city);
-      });
-    }
-
-    if (filterConfig.interests.length > 0) {
-      filteredUsers = filteredUsers.filter(user => {
-        return filterConfig.interests.some(tag => user.interests.includes(tag));
-      });
-    }
-
-    this.setData({
-      userList: filteredUsers,
-      allUsers: storedUsers
-    });
-  },
-
-  onLikeTap(e) {
-    const userId = e.currentTarget.dataset.id;
-    const { userList } = this.data;
-
-    const user = userList.find(u => u.id === userId);
-    if (!user) return;
-
-    let likedUsers = wx.getStorageSync('likedUsers') || [];
-
-    if (likedUsers.find(u => u.id === userId)) {
-      wx.showToast({ title: '已经喜欢过了', icon: 'none' });
-      return;
-    }
-
-    likedUsers.push({ ...user });
-    wx.setStorageSync('likedUsers', likedUsers);
-
-    let skippedUsers = wx.getStorageSync('skippedUsers') || [];
-    skippedUsers.push({ id: userId });
-    wx.setStorageSync('skippedUsers', skippedUsers);
-
-    let profile = wx.getStorageSync('profile') || { visitors: 128, likes: 42, matches: 35 };
-    profile.likes = (profile.likes || 0) + 1;
-
-    if (user.likesMe) {
-      profile.matches = (profile.matches || 0) + 1;
-
-      let matchedUsers = wx.getStorageSync('matchedUsers') || [];
-      if (!matchedUsers.find(u => u.id === userId)) {
-        matchedUsers.push({ ...user });
-        wx.setStorageSync('matchedUsers', matchedUsers);
+  loadRecommendations: function() {
+    var that = this;
+    
+    this.setData({ loading: true });
+    
+    wx.cloud.callFunction({
+      name: 'getRecommendations',
+      success: function(res) {
+        console.log('获取推荐列表成功:', res.result);
+        
+        if (res.result.code === 0) {
+          that.setData({ 
+            userList: res.result.data || [],
+            loading: false
+          });
+        } else {
+          console.error('获取失败:', res.result.message);
+          wx.showToast({ title: '加载失败', icon: 'none' });
+          that.setData({ loading: false });
+        }
+      },
+      fail: function(err) {
+        console.error('调用云函数失败:', err);
+        wx.showToast({ title: '网络错误', icon: 'none' });
+        that.setData({ loading: false });
       }
-
-      wx.showToast({ title: '匹配成功！', icon: 'success' });
-    } else {
-      wx.showToast({ title: '已添加到我喜欢的', icon: 'success' });
-    }
-
-    wx.setStorageSync('profile', profile);
-
-    let likesMeUsers = wx.getStorageSync('likesMeUsers') || mockUsers.filter(u => u.likesMe);
-    likesMeUsers = likesMeUsers.filter(u => u.id !== userId);
-    wx.setStorageSync('likesMeUsers', likesMeUsers);
-
-    this.loadUsers();
-  },
-
-  onSkipTap(e) {
-    const userId = e.currentTarget.dataset.id;
-
-    let skippedUsers = wx.getStorageSync('skippedUsers') || [];
-    skippedUsers.push({ id: userId });
-    wx.setStorageSync('skippedUsers', skippedUsers);
-
-    this.loadUsers();
-  },
-
-  onFilterTap() {
-    wx.navigateTo({
-      url: '/pages/filter/index'
     });
   },
 
-  onScrollToLower() {
-    console.log('滚动到底部，加载更多');
+  onLikeTap: function (e) {
+    var userId = e.currentTarget.dataset.id;
+    var that = this;
+    
+    console.log('点击喜欢，用户ID:', userId);
+    
+    wx.cloud.callFunction({
+      name: 'likeUser',
+      data: {
+        targetId: userId
+      },
+      success: function(res) {
+        console.log('喜欢成功:', res.result);
+        
+        if (res.result.code === 0) {
+          // 从列表中移除该用户
+          var newList = that.data.userList.filter(function(user) {
+            return user._id !== userId;
+          });
+          
+          that.setData({
+            userList: newList
+          });
+          
+          // 显示提示
+          if (res.result.data && res.result.data.isMatched) {
+            wx.showToast({ title: '匹配成功！', icon: 'success' });
+          } else {
+            wx.showToast({ title: '已添加到我喜欢的', icon: 'success' });
+          }
+        } else {
+          wx.showToast({ title: '操作失败', icon: 'none' });
+        }
+      },
+      fail: function(err) {
+        console.error('喜欢失败:', err);
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      }
+    });
+  },
+
+  onSkipTap: function (e) {
+    var userId = e.currentTarget.dataset.id;
+    
+    // 从列表中移除该用户
+    var newList = this.data.userList.filter(function(user) {
+      return user._id !== userId;
+    });
+    
+    this.setData({
+      userList: newList
+    });
+    
+    wx.showToast({ title: '已跳过', icon: 'none' });
+  },
+
+  onFilterTap: function () {
+    wx.navigateTo({ url: '/pages/filter/index' });
   }
 });

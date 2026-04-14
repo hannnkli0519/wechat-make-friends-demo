@@ -1,4 +1,3 @@
-/* pages/home/index.wxss */
 .home-page {
   display: flex;
   flex-direction: column;
@@ -15,6 +14,7 @@
   padding: 0 32rpx;
   background: #ffffff;
   border-bottom: 1rpx solid #e2e8f0;
+  flex-shrink: 0;
 }
 
 .header-title {
@@ -49,7 +49,6 @@
   border-radius: 24rpx;
   overflow: hidden;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .user-card-image {

@@ -1,9 +1,8 @@
 // pages/messages/index.js
-const { mockMessages } = require('../../utils/mockData');
-
 Page({
   data: {
-    messageList: []
+    messageList: [],
+    loading: false
   },
 
   onLoad() {
@@ -15,29 +14,31 @@ Page({
   },
 
   loadMessages() {
-    const matchedUsers = wx.getStorageSync('matchedUsers') || [];
-
-    let messages = mockMessages.slice();
-
-    matchedUsers.forEach(user => {
-      if (!messages.find(m => m.userId === user.id)) {
-        messages.push({
-          userId: user.id,
-          name: user.name,
-          avatar: user.avatar,
-          lastMessage: '开始聊天吧',
-          time: '刚刚',
-          unreadCount: 0
-        });
+    var that = this;
+    
+    this.setData({ loading: true });
+    
+    wx.cloud.callFunction({
+      name: 'getMessages',
+      success: function(res) {
+        console.log('获取消息列表成功:', res.result);
+        
+        if (res.result.code === 0) {
+          that.setData({ 
+            messageList: res.result.data || [],
+            loading: false
+          });
+        } else {
+          console.error('获取失败:', res.result.message);
+          wx.showToast({ title: '加载失败', icon: 'none' });
+          that.setData({ loading: false });
+        }
+      },
+      fail: function(err) {
+        console.error('调用云函数失败:', err);
+        wx.showToast({ title: '网络错误', icon: 'none' });
+        that.setData({ loading: false });
       }
-    });
-
-    if (matchedUsers.length === 0) {
-      messages = [];
-    }
-
-    this.setData({
-      messageList: messages
     });
   },
 
@@ -46,9 +47,6 @@ Page({
     const message = this.data.messageList.find(m => m.userId === userId);
 
     if (message) {
-      message.unreadCount = 0;
-      this.setData({ messageList: this.data.messageList });
-
       wx.navigateTo({
         url: `/pages/chat/index?userId=${userId}&userName=${message.name}&userAvatar=${message.avatar}`
       });

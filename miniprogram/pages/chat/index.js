@@ -1,44 +1,80 @@
 // pages/chat/index.js
-const { mockChatMessages, mockProfile } = require('../../utils/mockData');
-
 Page({
   data: {
     userName: '',
     userAvatar: '',
-    userId: 0,
+    userId: '',
     myAvatar: '',
     messages: [],
-    inputText: ''
+    inputText: '',
+    loading: false
   },
 
   onLoad(options) {
     const userName = options.userName || '对方';
     const userAvatar = options.userAvatar || '';
-    const userId = parseInt(options.userId) || 0;
-
-    // 获取自己的头像
-    const profile = wx.getStorageSync('profile') || mockProfile;
-    const myAvatar = profile.avatar || '';
-
-    // 加载聊天记录
-    const chatKey = `chat_${userId}`;
-    let messages = wx.getStorageSync(chatKey);
-    if (!messages || messages.length === 0) {
-      // 使用模拟数据
-      messages = mockChatMessages.slice();
-    }
+    const userId = options.userId || '';
 
     this.setData({
       userName,
       userAvatar,
-      userId,
-      myAvatar,
-      messages
+      userId
     });
 
-    // 滚动到底部
-    wx.nextTick(() => {
-      this.scrollToBottom();
+    this.loadMyProfile();
+    this.loadChatMessages();
+  },
+
+  loadMyProfile() {
+    var that = this;
+    
+    wx.cloud.callFunction({
+      name: 'getUserProfile',
+      success: function(res) {
+        if (res.result.code === 0) {
+          that.setData({
+            myAvatar: res.result.data.avatar || ''
+          });
+        }
+      },
+      fail: function(err) {
+        console.error('获取个人资料失败:', err);
+      }
+    });
+  },
+
+  loadChatMessages() {
+    var that = this;
+    
+    this.setData({ loading: true });
+    
+    wx.cloud.callFunction({
+      name: 'getChatMessages',
+      data: {
+        targetUserId: this.data.userId
+      },
+      success: function(res) {
+        console.log('获取聊天记录成功:', res.result);
+        
+        if (res.result.code === 0) {
+          that.setData({ 
+            messages: res.result.data || [],
+            loading: false
+          });
+          
+          // 滚动到底部
+          wx.nextTick(() => {
+            that.scrollToBottom();
+          });
+        } else {
+          console.error('获取失败:', res.result.message);
+          that.setData({ loading: false });
+        }
+      },
+      fail: function(err) {
+        console.error('调用云函数失败:', err);
+        that.setData({ loading: false });
+      }
     });
   },
 
@@ -51,74 +87,33 @@ Page({
 
   // 发送消息
   onSendMessage() {
-    const { inputText, messages } = this.data;
+    const { inputText, userId } = this.data;
 
     if (!inputText.trim()) {
       return;
     }
 
-    const newMessage = {
-      id: messages.length + 1,
-      senderId: 0,
-      content: inputText.trim(),
-      time: this.getCurrentTime(),
-      isSelf: true
-    };
+    var that = this;
 
-    messages.push(newMessage);
-
-    // 保存到本地存储
-    const chatKey = `chat_${this.data.userId}`;
-    wx.setStorageSync(chatKey, messages);
-
-    this.setData({
-      messages: messages,
-      inputText: ''
+    wx.cloud.callFunction({
+      name: 'sendMessage',
+      data: {
+        targetUserId: userId,
+        content: inputText.trim()
+      },
+      success: function(res) {
+        if (res.result.code === 0) {
+          // 重新加载聊天记录以确保数据同步
+          that.loadChatMessages();
+        } else {
+          wx.showToast({ title: '发送失败', icon: 'none' });
+        }
+      },
+      fail: function(err) {
+        console.error('发送消息失败:', err);
+        wx.showToast({ title: '发送失败', icon: 'none' });
+      }
     });
-
-    // 滚动到底部
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 100);
-
-    // 模拟对方回复
-    this.simulateReply();
-  },
-
-  // 模拟对方回复
-  simulateReply() {
-    setTimeout(() => {
-      const replies = [
-        '好的呀~',
-        '哈哈，你说得对',
-        '嗯嗯',
-        '真的吗？',
-        '太棒了！',
-        '我也这么觉得'
-      ];
-      const randomReply = replies[Math.floor(Math.random() * replies.length)];
-
-      const newMessage = {
-        id: this.data.messages.length + 1,
-        senderId: this.data.userId,
-        content: randomReply,
-        time: this.getCurrentTime(),
-        isSelf: false
-      };
-
-      const messages = this.data.messages;
-      messages.push(newMessage);
-
-      // 保存到本地存储
-      const chatKey = `chat_${this.data.userId}`;
-      wx.setStorageSync(chatKey, messages);
-
-      this.setData({ messages });
-
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 100);
-    }, 1000);
   },
 
   // 获取当前时间

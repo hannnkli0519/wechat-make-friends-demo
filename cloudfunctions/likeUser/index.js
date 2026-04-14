@@ -15,6 +15,22 @@ exports.main = async (event, context) => {
   const { targetId } = event
 
   try {
+    // 检查是否已经喜欢过
+    const existingLike = await db.collection('user_likes')
+      .where({
+        userId: currentUserId,
+        targetId: targetId
+      })
+      .get()
+
+    if (existingLike.data.length > 0) {
+      return {
+        code: -1,
+        data: null,
+        message: '已经喜欢过了'
+      }
+    }
+
     // 添加到喜欢列表
     const likeResult = await db.collection('user_likes').add({
       data: {
@@ -23,6 +39,8 @@ exports.main = async (event, context) => {
         createTime: db.serverDate()
       }
     })
+
+    console.log('添加喜欢记录成功:', likeResult._id)
 
     // 检查是否双向喜欢
     const mutualLike = await db.collection('user_likes')
@@ -44,22 +62,10 @@ exports.main = async (event, context) => {
         }
       })
 
-      // 更新用户的匹配计数
-      await db.collection('users').doc(currentUserId).update({
-        data: {
-          matchCount: db.command.inc(1)
-        }
-      })
+      console.log('匹配成功')
 
       isMatched = true
     }
-
-    // 更新用户的喜欢计数
-    await db.collection('users').doc(currentUserId).update({
-      data: {
-        likeCount: db.command.inc(1)
-      }
-    })
 
     return {
       code: 0,
@@ -67,7 +73,7 @@ exports.main = async (event, context) => {
       message: isMatched ? '匹配成功' : '已喜欢'
     }
   } catch (err) {
-    console.error(err)
+    console.error('likeUser 错误:', err)
     return {
       code: -1,
       data: null,

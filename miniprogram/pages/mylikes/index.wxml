@@ -11,8 +11,16 @@
 
   <!-- Content -->
   <scroll-view class="content" scroll-y>
-    <block wx:if="{{myLikesList.length > 0}}">
-      <view class="like-card" wx:for="{{myLikesList}}" wx:key="id">
+    <!-- Loading State -->
+    <block wx:if="{{loading}}">
+      <view class="loading-state">
+        <text class="loading-text">加载中...</text>
+      </view>
+    </block>
+
+    <!-- List State -->
+    <block wx:elif="{{myLikesList.length > 0}}">
+      <view class="like-card" wx:for="{{myLikesList}}" wx:key="_id">
         <image class="like-avatar" src="{{item.avatar}}" mode="aspectFill" />
         <view class="like-info">
           <view class="like-top">
@@ -31,7 +39,8 @@
       </view>
     </block>
 
-    <block wx:if="{{myLikesList.length === 0}}">
+    <!-- Empty State -->
+    <block wx:elif="{{!loading && myLikesList.length === 0}}">
       <view class="empty-state">
         <view class="empty-icon">
           <text class="empty-icon-text">♡</text>
