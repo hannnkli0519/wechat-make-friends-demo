@@ -9,6 +9,15 @@ Page({
   },
 
   onShow: function() {
+    // 检查是否需要显示引导页
+    const hasSeenOnboarding = wx.getStorageSync('hasSeenOnboarding');
+    if (!hasSeenOnboarding) {
+      wx.reLaunch({
+        url: '/pages/onboarding/index'
+      });
+      return;
+    }
+
     // 检查筛选条件是否有变化，如果有变化则重新加载
     const savedFilter = wx.getStorageSync('filterConfig');
     const currentFilterStr = JSON.stringify(this.data.lastFilter || {});

@@ -1,0 +1,112 @@
+<!-- pages/onboarding/index.wxml -->
+<view class="container">
+  <swiper class="swiper" current="{{currentStep}}" bindchange="onSwiperChange">
+    <!-- 第1页：说明 -->
+    <swiper-item catchtouchmove="{{disableSwipe}}">
+      <view class="onboarding-page">
+        <view class="content-box">
+          <view class="icon-wrap">👋</view>
+          <text class="title">欢迎来到相亲小程序</text>
+          <text class="desc">为了能帮您找到心仪的另一半，我们需要先了解真实的您。请花一分钟时间完善您的个人资料。</text>
+        </view>
+        <view class="footer">
+          <button class="btn-primary" bindtap="nextStep">开始填写</button>
+        </view>
+      </view>
+    </swiper-item>
+
+    <!-- 第2页：填写资料（基本信息） -->
+    <swiper-item catchtouchmove="{{disableSwipe}}">
+      <view class="onboarding-page">
+        <scroll-view class="form-content" scroll-y>
+          <text class="page-title">完善基本资料</text>
+          
+          <!-- 照片 -->
+          <view class="edit-section">
+            <text class="section-title required">我的照片 (至少一张)</text>
+            <view class="photos-row">
+              <view class="photo-item" wx:for="{{profile.photos}}" wx:key="index">
+                <image class="photo-image" src="{{item}}" mode="aspectFill" />
+                <view class="photo-delete" catchtap="onDeletePhoto" data-index="{{index}}">×</view>
+              </view>
+              <view class="photo-item photo-add" bindtap="onAddPhoto" wx:if="{{profile.photos.length < 3}}">
+                <text class="photo-add-icon">+</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 基本信息 -->
+          <view class="edit-section">
+            <view class="form-item">
+              <text class="form-label required">昵称</text>
+              <input class="form-input" value="{{profile.name}}" bindinput="onNameChange" placeholder="请输入昵称" />
+            </view>
+            <view class="form-item">
+              <text class="form-label required">年龄</text>
+              <input class="form-input" type="number" value="{{profile.age}}" bindinput="onAgeChange" placeholder="请输入年龄" />
+            </view>
+            <view class="form-item">
+              <text class="form-label required">城市</text>
+              <input class="form-input" value="{{profile.city}}" bindinput="onCityChange" placeholder="请输入城市" />
+            </view>
+            <view class="form-item">
+              <text class="form-label required">职业</text>
+              <input class="form-input" value="{{profile.occupation}}" bindinput="onOccupationChange" placeholder="请输入职业" />
+            </view>
+          </view>
+        </scroll-view>
+        <view class="footer">
+          <button class="btn-primary {{!isValid ? 'disabled' : ''}}" bindtap="nextStep">下一步</button>
+        </view>
+      </view>
+    </swiper-item>
+
+    <!-- 第3页：更多资料（个性化） -->
+    <swiper-item catchtouchmove="{{disableSwipe}}">
+      <view class="onboarding-page">
+        <scroll-view class="form-content" scroll-y>
+          <text class="page-title">让大家更了解你</text>
+
+          <!-- 个人简介 -->
+          <view class="edit-section">
+            <view class="section-header">
+              <text class="section-title">个人简介</text>
+              <text class="optional-tag">(可选)</text>
+            </view>
+            <textarea class="bio-input" value="{{profile.bio}}" bindinput="onBioChange" placeholder="介绍一下自己吧" maxlength="200" />
+          </view>
+
+          <!-- 兴趣爱好 -->
+          <view class="edit-section">
+            <view class="section-header">
+              <text class="section-title">兴趣爱好</text>
+              <text class="optional-tag">(可选)</text>
+            </view>
+            <view class="interests-wrap">
+              <view class="interest-tag {{item.selected ? 'selected' : ''}}" wx:for="{{interestOptions}}" wx:key="name" bindtap="onInterestTap" data-tag="{{item.name}}">
+                {{item.name}}
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+        <view class="footer">
+          <button class="btn-primary" bindtap="saveProfile" loading="{{loading}}">完成填写</button>
+        </view>
+      </view>
+    </swiper-item>
+
+    <!-- 第4页：功能介绍 -->
+    <swiper-item catchtouchmove="{{disableSwipe}}">
+      <view class="onboarding-page">
+        <view class="content-box">
+          <view class="icon-wrap">❤️</view>
+          <text class="title">开启寻爱之旅</text>
+          <text class="desc">您可以左滑跳过、右滑喜欢。当双方互相喜欢时，就可以开启聊天了！</text>
+        </view>
+        <view class="footer">
+          <button class="btn-primary" bindtap="finishOnboarding">开始使用</button>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+</view>
