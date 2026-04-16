@@ -11,35 +11,15 @@
   flex-direction: row;
   align-items: center;
   height: 88rpx;
-  padding: 0 24rpx;
+  padding: 0 40rpx;
   background: #ffffff;
   border-bottom: 1rpx solid #e2e8f0;
 }
 
-.filter-header-left {
-  width: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-icon {
-  font-size: 48rpx;
-  color: #2d3748;
-  font-weight: 300;
-}
-
 .filter-header-title {
-  flex: 1;
-  text-align: center;
-  font-size: 32rpx;
+  font-size: 36rpx;
   font-weight: 600;
   color: #2d3748;
-  margin-right: 64rpx;
-}
-
-.filter-header-right {
-  width: 64rpx;
 }
 
 .filter-content {
@@ -118,9 +98,9 @@
 }
 
 .city-tag.selected {
-  background: #4299E1;
+  background: #f5b4bc;
   color: #ffffff;
-  border-color: #4299E1;
+  border-color: #f5b4bc;
 }
 
 /* Interests */
@@ -144,9 +124,9 @@
 }
 
 .interest-tag.selected {
-  background: #4299E1;
+  background: #f5b4bc;
   color: #ffffff;
-  border-color: #4299E1;
+  border-color: #f5b4bc;
 }
 
 /* Footer */
@@ -159,6 +139,13 @@
   background: #ffffff;
   border-top: 1rpx solid #e2e8f0;
   padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .filter-confirm-btn {

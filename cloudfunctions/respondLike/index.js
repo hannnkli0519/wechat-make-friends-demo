@@ -33,14 +33,6 @@ exports.main = async (event, context) => {
       }
     })
 
-    // 更新双方匹配计数
-    await db.collection('users').doc(currentUserId).update({
-      data: {
-        matchCount: db.command.inc(1),
-        likeCount: db.command.inc(1)
-      }
-    })
-
     // 从喜欢我的列表中移除
     await db.collection('user_likes')
       .where({

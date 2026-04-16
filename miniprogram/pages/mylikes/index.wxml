@@ -2,11 +2,7 @@
 <view class="mylikes-page">
   <!-- Header -->
   <view class="header">
-    <view class="header-left" bindtap="onBack">
-      <text class="back-icon">‹</text>
-    </view>
     <text class="header-title">我喜欢的</text>
-    <view class="header-right"></view>
   </view>
 
   <!-- Content -->

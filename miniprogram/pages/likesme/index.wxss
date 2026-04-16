@@ -11,41 +11,22 @@
   flex-direction: row;
   align-items: center;
   height: 88rpx;
-  padding: 0 24rpx;
+  padding: 0 40rpx;
   background: #ffffff;
   border-bottom: 1rpx solid #e2e8f0;
 }
 
-.header-left {
-  width: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-icon {
-  font-size: 48rpx;
-  color: #2d3748;
-  font-weight: 300;
-}
-
 .header-title {
-  flex: 1;
-  text-align: center;
-  font-size: 32rpx;
+  font-size: 36rpx;
   font-weight: 600;
   color: #2d3748;
-  margin-right: 64rpx;
-}
-
-.header-right {
-  width: 64rpx;
 }
 
 .content {
   flex: 1;
   padding: 24rpx;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .like-card {
@@ -56,6 +37,7 @@
   border-radius: 20rpx;
   padding: 28rpx;
   margin-bottom: 20rpx;
+  box-sizing: border-box;
 }
 
 .like-avatar {

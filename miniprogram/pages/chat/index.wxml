@@ -2,12 +2,8 @@
 <view class="chat-page">
   <!-- Header -->
   <view class="chat-header">
-    <view class="chat-header-left" bindtap="onBack">
-      <text class="back-icon">‹</text>
-    </view>
     <image class="chat-header-avatar" src="{{userAvatar}}" mode="aspectFill" />
     <text class="chat-header-name">{{userName}}</text>
-    <view class="chat-header-right"></view>
   </view>
 
   <!-- Chat Messages -->

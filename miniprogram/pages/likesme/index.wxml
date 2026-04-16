@@ -2,17 +2,13 @@
 <view class="likesme-page">
   <!-- Header -->
   <view class="header">
-    <view class="header-left" bindtap="onBack">
-      <text class="back-icon">‹</text>
-    </view>
     <text class="header-title">喜欢我的</text>
-    <view class="header-right"></view>
   </view>
 
   <!-- Content -->
   <scroll-view class="content" scroll-y>
     <block wx:if="{{likesMeList.length > 0}}">
-      <view class="like-card" wx:for="{{likesMeList}}" wx:key="id">
+      <view class="like-card" wx:for="{{likesMeList}}" wx:key="_id">
         <image class="like-avatar" src="{{item.avatar}}" mode="aspectFill" />
         <view class="like-info">
           <view class="like-top">
@@ -25,7 +21,7 @@
             </view>
           </view>
         </view>
-        <view class="like-respond-btn" bindtap="onRespondTap" data-id="{{item.id}}" data-name="{{item.name}}">
+        <view class="like-respond-btn" bindtap="onRespondTap" data-id="{{item._id}}" data-name="{{item.name}}">
           <text class="respond-text">回应</text>
         </view>
       </view>

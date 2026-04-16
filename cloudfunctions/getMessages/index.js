@@ -15,13 +15,14 @@ exports.main = async (event, context) => {
   try {
     // 获取匹配的用户
     const matches = await db.collection('user_matches')
-      .where({
-        userId1: currentUserId
-      })
+      .where(db.command.or([
+        { userId1: currentUserId },
+        { userId2: currentUserId }
+      ]))
       .get()
 
     // 获取对方的信息
-    const userIds = matches.data.map(m => m.userId2)
+    const userIds = matches.data.map(m => m.userId1 === currentUserId ? m.userId2 : m.userId1)
 
     if (userIds.length === 0) {
       return {

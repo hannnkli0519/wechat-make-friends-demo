@@ -1,8 +1,7 @@
 // app.js
 App({
   globalData: {
-    env: "cloudbase-7gsnbl9n078289bd",
-    currentUserId: 1
+    env: "cloudbase-7gsnbl9n078289bd"
   },
 
   onLaunch: function () {

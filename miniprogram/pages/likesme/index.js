@@ -45,15 +45,18 @@ Page({
     var that = this;
 
     wx.cloud.callFunction({
-      name: 'likeUser',
+      name: 'respondLike',
       data: {
-        targetId: userId
+        targetId: userId,
+        targetName: userName
       },
       success: function(res) {
         if (res.result.code === 0) {
           // 从列表中移除
           const newList = that.data.likesMeList.filter(u => u._id !== userId);
-          that.setData({ likesMeList: newList });
+          that.setData({ 
+            likesMeList: newList 
+          });
 
           // 显示匹配成功提示
           wx.showModal({

@@ -232,8 +232,7 @@ exports.main = async (event, context) => {
       const results = await Promise.all([
         importCollection('users', mockUsers),
         importCollection('messages', mockMessages),
-        importCollection('chat_messages', mockChatMessages),
-        importCollection('profiles', [mockProfile])
+        importCollection('chat_messages', mockChatMessages)
       ]);
 
       return {
@@ -242,8 +241,7 @@ exports.main = async (event, context) => {
         results: {
           users: results[0],
           messages: results[1],
-          chat_messages: results[2],
-          profiles: results[3]
+          chat_messages: results[2]
         }
       };
     }

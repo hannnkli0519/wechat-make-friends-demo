@@ -24,7 +24,6 @@ exports.main = async (event, context) => {
       
       const now = new Date()
       const defaultUser = {
-        _id: currentUserId,
         name: '新用户',
         age: 25,
         city: '北京',
@@ -37,12 +36,15 @@ exports.main = async (event, context) => {
         updateTime: db.serverDate()
       }
       
-      await db.collection('users').add({
+      await db.collection('users').doc(currentUserId).set({
         data: defaultUser
       })
       
       userResult = {
-        data: defaultUser
+        data: {
+          ...defaultUser,
+          _id: currentUserId
+        }
       }
     }
 

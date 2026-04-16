@@ -2,11 +2,7 @@
 <view class="filter-page">
   <!-- Header -->
   <view class="filter-header">
-    <view class="filter-header-left" bindtap="onBack">
-      <text class="back-icon">‹</text>
-    </view>
     <text class="filter-header-title">筛选条件</text>
-    <view class="filter-header-right"></view>
   </view>
 
   <!-- Content -->
@@ -31,7 +27,7 @@
     <view class="filter-section">
       <text class="filter-section-title">所在城市</text>
       <view class="city-wrap">
-        <view class="city-tag {{filter.cities.includes(item) ? 'selected' : ''}}" wx:for="{{cities}}" wx:key="*this" bindtap="onCityTap" data-city="{{item}}">
+        <view class="city-tag {{helper.indexOf(filter.cities, item) !== -1 ? 'selected' : ''}}" wx:for="{{cities}}" wx:key="*this" bindtap="onCityTap" data-city="{{item}}">
           {{item}}
         </view>
       </view>
@@ -41,15 +37,23 @@
     <view class="filter-section">
       <text class="filter-section-title">兴趣标签</text>
       <view class="interest-wrap">
-        <view class="interest-tag {{filter.interests.includes(item) ? 'selected' : ''}}" wx:for="{{interests}}" wx:key="*this" bindtap="onInterestTap" data-tag="{{item}}">
+        <view class="interest-tag {{helper.indexOf(filter.interests, item) !== -1 ? 'selected' : ''}}" wx:for="{{interests}}" wx:key="*this" bindtap="onInterestTap" data-tag="{{item}}">
           {{item}}
         </view>
       </view>
     </view>
   </scroll-view>
 
+  <!-- WXS Helper -->
+  <wxs module="helper">
+    module.exports.indexOf = function(arr, item) {
+      if (!arr || !arr.indexOf) return -1;
+      return arr.indexOf(item);
+    }
+  </wxs>
+
   <!-- Footer -->
-  <view class="filter-footer">
+  <view class="filter-footer" wx:if="{{isReady}}">
     <view class="filter-confirm-btn" bindtap="onConfirm">
       <text class="confirm-text">确认筛选</text>
     </view>

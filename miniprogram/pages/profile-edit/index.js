@@ -33,6 +33,15 @@ Page({
       success: function(res) {
         if (res.result.code === 0) {
           const profile = res.result.data;
+          
+          // 核心修复：过滤掉过期的本地临时路径，只保留云文件ID
+          if (profile.photos) {
+            profile.photos = profile.photos.filter(path => path && path.startsWith('cloud://'));
+          }
+          if (profile.avatar && !profile.avatar.startsWith('cloud://')) {
+            profile.avatar = ''; // 如果头像也是过期的临时路径，清空它
+          }
+          
           that.setData({ profile });
 
           // 更新兴趣选项的选中状态
@@ -116,43 +125,98 @@ Page({
     });
   },
 
+  // 删除照片
+  onDeletePhoto(e) {
+    const { index } = e.currentTarget.dataset;
+    const { photos } = this.data.profile;
+    
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除这张照片吗？',
+      success: (res) => {
+        if (res.confirm) {
+          photos.splice(index, 1);
+          this.setData({
+            'profile.photos': photos
+          });
+        }
+      }
+    });
+  },
+
   // 保存
-  onSave() {
+  async onSave() {
     var that = this;
     const { profile } = this.data;
 
     this.setData({ loading: true });
 
-    wx.cloud.callFunction({
-      name: 'updateUserProfile',
-      data: {
-        name: profile.name,
-        age: profile.age,
-        city: profile.city,
-        occupation: profile.occupation,
-        bio: profile.bio,
-        interests: profile.interests,
-        photos: profile.photos
-      },
-      success: function(res) {
-        if (res.result.code === 0) {
-          wx.showToast({ title: '保存成功', icon: 'success' });
-          that.setData({ loading: false });
+    try {
+      // 1. 处理照片上传
+      const photos = profile.photos || [];
+      const uploadPhotos = [];
+      
+      for (const path of photos) {
+        // 如果已经是云文件ID（cloud://），则无需上传
+        if (path && path.startsWith('cloud://')) {
+          uploadPhotos.push(path);
+          continue;
+        }
 
-          setTimeout(() => {
-            wx.navigateBack();
-          }, 1000);
-        } else {
-          wx.showToast({ title: '保存失败', icon: 'none' });
+        console.log('开始上传图片:', path);
+        // 上传本地临时文件
+        const cloudPath = `user-photos/${Date.now()}-${Math.floor(Math.random() * 1000)}.jpg`;
+        const uploadRes = await wx.cloud.uploadFile({
+          cloudPath,
+          filePath: path
+        });
+        console.log('图片上传成功，fileID:', uploadRes.fileID);
+        uploadPhotos.push(uploadRes.fileID);
+      }
+
+      // 2. 自动设置第一张照片为头像（如果 avatar 为空或者是默认头像）
+      let avatar = profile.avatar;
+      if (uploadPhotos.length > 0) {
+        avatar = uploadPhotos[0];
+      }
+
+      // 3. 调用云函数更新资料
+      wx.cloud.callFunction({
+        name: 'updateUserProfile',
+        data: {
+          name: profile.name,
+          age: profile.age,
+          city: profile.city,
+          occupation: profile.occupation,
+          bio: profile.bio,
+          interests: profile.interests,
+          photos: uploadPhotos,
+          avatar: avatar
+        },
+        success: function(res) {
+          if (res.result.code === 0) {
+            wx.showToast({ title: '保存成功', icon: 'success' });
+            that.setData({ loading: false });
+
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 1000);
+          } else {
+            wx.showToast({ title: '保存失败', icon: 'none' });
+            that.setData({ loading: false });
+          }
+        },
+        fail: function(err) {
+          console.error('保存失败:', err);
+          wx.showToast({ title: '网络错误', icon: 'none' });
           that.setData({ loading: false });
         }
-      },
-      fail: function(err) {
-        console.error('保存失败:', err);
-        wx.showToast({ title: '网络错误', icon: 'none' });
-        that.setData({ loading: false });
-      }
-    });
+      });
+    } catch (err) {
+      console.error('上传照片失败:', err);
+      wx.showToast({ title: '上传失败', icon: 'none' });
+      that.setData({ loading: false });
+    }
   },
 
   // 返回

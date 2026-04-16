@@ -2,9 +2,6 @@
 <view class="edit-page">
   <!-- Header -->
   <view class="edit-header">
-    <view class="edit-header-left" bindtap="onBack">
-      <text class="back-icon">‹</text>
-    </view>
     <text class="edit-header-title">编辑资料</text>
     <text class="save-btn" bindtap="onSave">保存</text>
   </view>
@@ -17,7 +14,7 @@
       <view class="photos-row">
         <view class="photo-item" wx:for="{{profile.photos}}" wx:key="index">
           <image class="photo-image" src="{{item}}" mode="aspectFill" />
-          <view class="photo-camera">📷</view>
+          <view class="photo-delete" catchtap="onDeletePhoto" data-index="{{index}}">×</view>
         </view>
         <view class="photo-item photo-add" bindtap="onAddPhoto">
           <text class="photo-add-icon">+</text>

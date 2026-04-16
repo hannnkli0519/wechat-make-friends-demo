@@ -9,18 +9,30 @@ Page({
   },
 
   onShow: function() {
-    if (this.data.userList.length === 0) {
+    // 检查筛选条件是否有变化，如果有变化则重新加载
+    const savedFilter = wx.getStorageSync('filterConfig');
+    const currentFilterStr = JSON.stringify(this.data.lastFilter || {});
+    const savedFilterStr = JSON.stringify(savedFilter || {});
+    
+    if (this.data.userList.length === 0 || currentFilterStr !== savedFilterStr) {
       this.loadRecommendations();
     }
   },
 
   loadRecommendations: function() {
     var that = this;
+    const filter = wx.getStorageSync('filterConfig') || {};
     
-    this.setData({ loading: true });
+    this.setData({ 
+      loading: true,
+      lastFilter: filter // 记录当前的筛选条件
+    });
     
     wx.cloud.callFunction({
       name: 'getRecommendations',
+      data: {
+        filter: filter
+      },
       success: function(res) {
         console.log('获取推荐列表成功:', res.result);
         

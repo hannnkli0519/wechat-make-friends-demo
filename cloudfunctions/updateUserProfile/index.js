@@ -10,7 +10,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const currentUserId = wxContext.OPENID
-  const { name, age, city, occupation, bio, interests, photos } = event
+  const { name, age, city, occupation, bio, interests, photos, avatar } = event
 
   try {
     const updateData = {}
@@ -22,6 +22,7 @@ exports.main = async (event, context) => {
     if (bio !== undefined) updateData.bio = bio
     if (interests !== undefined) updateData.interests = interests
     if (photos !== undefined) updateData.photos = photos
+    if (avatar !== undefined) updateData.avatar = avatar
 
     await db.collection('users')
       .doc(currentUserId)
