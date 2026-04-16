@@ -7,7 +7,14 @@
   </view>
 
   <!-- Chat Messages -->
-  <scroll-view class="chat-content" scroll-y scroll-into-view="msg-{{messages.length - 1}}" scroll-with-animation>
+  <scroll-view 
+    class="chat-content" 
+    scroll-y 
+    scroll-into-view="{{scrollToView}}" 
+    scroll-with-animation 
+    bindtap="onHideKeyboard"
+    style="padding-bottom: {{keyboardHeight > 0 ? 0 : 'env(safe-area-inset-bottom)'}}"
+  >
     <view class="chat-message-item" wx:for="{{messages}}" wx:key="id" id="msg-{{index}}">
       <!-- 对方消息 -->
       <block wx:if="{{!item.isSelf}}">
@@ -33,12 +40,15 @@
   </scroll-view>
 
   <!-- Footer - Input Area -->
-  <view class="chat-footer">
+  <view class="chat-footer {{keyboardHeight > 0 ? 'keyboard-up' : ''}}">
     <view class="chat-input-wrap">
-      <input class="chat-input" placeholder="输入消息..." placeholder-class="chat-input-placeholder" value="{{inputText}}" bindinput="onInputChange" bindconfirm="onSendMessage" confirm-type="send" />
+      <input class="chat-input" placeholder="输入消息..." placeholder-class="chat-input-placeholder" value="{{inputText}}" bindinput="onInputChange" bindconfirm="onSendMessage" confirm-type="send" focus="{{focus}}" hold-keyboard="{{true}}" adjust-position="{{false}}" bindkeyboardheightchange="onKeyboardHeightChange" />
     </view>
-    <view class="chat-send-btn {{inputText ? 'active' : ''}}" bindtap="onSendMessage">
+    <view class="chat-send-btn {{inputText ? 'active' : ''}}" catchtouchstart="onSendMessage">
       <text class="send-icon">↑</text>
     </view>
   </view>
+
+  <!-- Keyboard Placeholder -->
+  <view style="height: {{keyboardHeight}}px; background: #ffffff;"></view>
 </view>

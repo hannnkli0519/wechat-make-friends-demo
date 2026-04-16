@@ -7,7 +7,10 @@ Page({
     myAvatar: '',
     messages: [],
     inputText: '',
-    loading: false
+    loading: false,
+    focus: false,
+    keyboardHeight: 0,
+    scrollToView: ''
   },
 
   onLoad(options) {
@@ -23,6 +26,21 @@ Page({
 
     this.loadMyProfile();
     this.loadChatMessages();
+  },
+
+  // 监听键盘高度变化
+  onKeyboardHeightChange(e) {
+    const { height } = e.detail;
+    this.setData({
+      keyboardHeight: height
+    });
+    
+    if (height > 0) {
+      // 延迟一下确保布局更新完成再滚动
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+    }
   },
 
   loadMyProfile() {
@@ -105,7 +123,8 @@ Page({
 
     this.setData({
       inputText: '',
-      messages: [...messages, tempMessage]
+      messages: [...messages, tempMessage],
+      focus: true
     });
 
     wx.nextTick(() => {
@@ -142,13 +161,29 @@ Page({
 
   // 滚动到底部
   scrollToBottom() {
+    if (this.data.messages.length === 0) return;
+    
+    const lastIndex = this.data.messages.length - 1;
+    // 强制触发重绘以确保滚动生效
     this.setData({
-      scrollToView: `msg-${this.data.messages.length - 1}`
+      scrollToView: ''
+    }, () => {
+      this.setData({
+        scrollToView: `msg-${lastIndex}`
+      });
     });
   },
 
   // 返回
   onBack() {
     wx.navigateBack();
+  },
+
+  // 收起键盘
+  onHideKeyboard() {
+    this.setData({
+      focus: false,
+      keyboardHeight: 0
+    });
   }
 });

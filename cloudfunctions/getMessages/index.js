@@ -87,7 +87,10 @@ exports.main = async (event, context) => {
 }
 
 function formatTime(date) {
-  const d = new Date(date)
+  if (!date) return ''
+  
+  // 云函数环境是 UTC 时间，需要手动加 8 小时转为北京时间
+  const d = new Date(new Date(date).getTime() + 8 * 60 * 60 * 1000)
   const hours = String(d.getHours()).padStart(2, '0')
   const minutes = String(d.getMinutes()).padStart(2, '0')
   return `${hours}:${minutes}`

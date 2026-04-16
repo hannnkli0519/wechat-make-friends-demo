@@ -114,6 +114,7 @@
 
 /* Footer */
 .chat-footer {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -123,6 +124,12 @@
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   gap: 16rpx;
   box-sizing: border-box;
+  z-index: 1000;
+}
+
+/* 当键盘弹出时，减少底部间距，让输入框紧贴键盘 */
+.chat-footer.keyboard-up {
+  padding-bottom: 20rpx;
 }
 
 .chat-input-wrap {
