@@ -15,6 +15,7 @@
           <image class="chat-message-avatar" src="{{userAvatar}}" mode="aspectFill" />
           <view class="chat-message-bubble chat-message-bubble-left">
             <text class="chat-message-text">{{item.content}}</text>
+            <text class="chat-message-time">{{item.time}}</text>
           </view>
         </view>
       </block>
@@ -23,6 +24,7 @@
         <view class="chat-message-self">
           <view class="chat-message-bubble chat-message-bubble-right">
             <text class="chat-message-text">{{item.content}}</text>
+            <text class="chat-message-time">{{item.time}}</text>
           </view>
           <image class="chat-message-avatar" src="{{myAvatar}}" mode="aspectFill" />
         </view>

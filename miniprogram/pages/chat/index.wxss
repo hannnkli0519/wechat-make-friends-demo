@@ -74,6 +74,19 @@
   padding: 20rpx 28rpx;
   border-radius: 24rpx;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message-time {
+  font-size: 20rpx;
+  color: #a0aec0;
+  margin-top: 8rpx;
+  align-self: flex-end;
+}
+
+.chat-message-bubble-right .chat-message-time {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .chat-message-bubble-left {

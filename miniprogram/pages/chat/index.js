@@ -87,23 +87,39 @@ Page({
 
   // 发送消息
   onSendMessage() {
-    const { inputText, userId } = this.data;
+    const { inputText, userId, messages } = this.data;
 
     if (!inputText.trim()) {
       return;
     }
 
+    const text = inputText.trim();
+    const tempMessage = {
+      id: `temp-${Date.now()}`,
+      content: text,
+      isSelf: true,
+      time: this.getCurrentTime()
+    };
+
     var that = this;
+
+    this.setData({
+      inputText: '',
+      messages: [...messages, tempMessage]
+    });
+
+    wx.nextTick(() => {
+      that.scrollToBottom();
+    });
 
     wx.cloud.callFunction({
       name: 'sendMessage',
       data: {
         targetUserId: userId,
-        content: inputText.trim()
+        content: text
       },
       success: function(res) {
         if (res.result.code === 0) {
-          // 重新加载聊天记录以确保数据同步
           that.loadChatMessages();
         } else {
           wx.showToast({ title: '发送失败', icon: 'none' });
