@@ -122,5 +122,14 @@ Page({
 
   onFilterTap: function () {
     wx.navigateTo({ url: '/pages/filter/index' });
+  },
+
+  onSwiperChange: function(e) {
+    const { current } = e.detail;
+    const { userindex } = e.currentTarget.dataset;
+    const key = `userList[${userindex}].currentPhotoIndex`;
+    this.setData({
+      [key]: current || 0
+    });
   }
 });

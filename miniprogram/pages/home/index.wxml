@@ -9,9 +9,24 @@
 
   <view class="content">
     <block wx:if="{{userList.length > 0}}">
-      <view class="user-card" wx:for="{{userList}}" wx:key="_id" wx:for-item="user">
+      <view class="user-card" wx:for="{{userList}}" wx:key="_id" wx:for-item="user" wx:for-index="index">
         <view class="user-card-image">
-          <image class="user-avatar" src="{{user.avatar}}" mode="aspectFill" />
+          <swiper class="user-swiper" indicator-dots="{{(user.photos && user.photos.length > 1)}}" indicator-active-color="#f5b4bc" indicator-color="rgba(255, 255, 255, 0.6)" circular bindchange="onSwiperChange" data-userindex="{{index}}">
+            <block wx:if="{{user.photos && user.photos.length > 0}}">
+              <swiper-item wx:for="{{user.photos}}" wx:for-item="photo" wx:key="*this">
+                <image class="user-photo" src="{{photo}}" mode="aspectFill" />
+              </swiper-item>
+            </block>
+            <block wx:else>
+              <swiper-item>
+                <image class="user-photo" src="{{user.avatar}}" mode="aspectFill" />
+              </swiper-item>
+            </block>
+          </swiper>
+          <!-- 图片索引提示 -->
+          <view class="photo-badge" wx:if="{{user.photos && user.photos.length > 1}}">
+            <text class="photo-badge-text">{{ (user.currentPhotoIndex || 0) + 1 }}/{{ user.photos.length }}</text>
+          </view>
           <view class="user-card-overlay">
             <view class="user-card-info">
               <text class="user-name">{{user.name}}</text>
